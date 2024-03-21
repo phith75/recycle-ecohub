@@ -70,14 +70,12 @@ class TrashController extends Controller
             if(isset($_SESSION['role']) && $_SESSION['role'] == 0){
                 $trash = Trash::find($id_trash);
                 $trasheType = TypeTrash::where('id_trash',$id_trash)->get();
-
                 return view('index',compact('trash','trasheType'));
             }
             else{
                 echo "<script>alert('Bạn phải là nhân viên mới được truy cập trang này');</script>";
                 return redirect("user_client");
             }
-      
     }}
     return redirect('/');
     }

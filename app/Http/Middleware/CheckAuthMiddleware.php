@@ -12,7 +12,7 @@ class CheckAuthMiddleware
     {
         if (!Auth::check()) {
             // Nếu người dùng chưa đăng nhập, chuyển hướng đến signupPage
-            return redirect()->route('user_client');
+            return redirect()->route('/');
         }
 
         return $next($request);
