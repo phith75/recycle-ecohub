@@ -12,13 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class ScanQRController extends Controller
 {
     public function index()
-    {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+    {       
+        
             return view("user_scaner");
-        } else {
-            echo "<script>alert('Bạn phải là người dùng mới được truy cập trang này');</script>";
-            return view("index");
-        }
+        
     }
     public function redirectToRoute(Request $request, $id)
 {
@@ -40,17 +37,17 @@ class ScanQRController extends Controller
     $trashType = intval($data['trashType']);
     $able = intval($data['able']);
  
-    $points = 0;
+    $point = 0;
     switch ($trashType) {
         case 1:
-            $points = $weight * 10;
+            $point = $weight * 10;
             break;
         case 2:
-            $points = $weight * 15;
+            $point = $weight * 15;
             break;
         // Thêm các trường hợp khác nếu cần
         default:
-            $points = $weight * 5; // Ví dụ mặc định
+            $point = $weight * 5; // Ví dụ mặc định
             break;
     }
 
@@ -59,9 +56,11 @@ class ScanQRController extends Controller
     $trashType = TypeTrash::find($trashType);
 
     if ($trashType) {
+
         $trashType->weightable += $weight;
-        $trashType->save();
-        $user->points += $points;
+        $trashType->update(['weightable' => $trashType->weightable]);
+        $user->point += $point;
+        $user->update(['point' => $user->point]);
     }
     // tôi muốn render dữ liệu $trashType và $trash lấy dữ liệu từ bảng trash vào pusher như 1 mảng
     // Lấy dữ liệu từ bảng trash và gửi qua Pusher
@@ -72,7 +71,6 @@ class ScanQRController extends Controller
         'trash' => $trash,
         'userName' => $userName,
     ];
-    
     // Gửi dữ liệu qua Pusher
     $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
         'cluster' => env('PUSHER_APP_CLUSTER'),

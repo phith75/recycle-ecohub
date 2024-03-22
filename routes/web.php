@@ -22,7 +22,7 @@ use App\Http\Controllers\TypeTrashController;
 |
 */
 
-Route::get('/index', [TrashController::class, 'trashIndex'])->middleware(CheckAuthMiddleware::class);
+Route::get('/index', [TrashController::class, 'trashIndex'])->name('index')->middleware(CheckAuthMiddleware::class);
 Route::get('/user_client', [ScanQRController::class, 'index'])->name('user_client')->middleware(CheckAuthMiddleware::class);
 
 Route::get('/',  [AuthController::class, 'signinPage']);
@@ -32,8 +32,8 @@ Route::get('/qr-code/{id}', [ScanQRController::class, 'redirectToRoute'])->middl
 Route::get('/signup', function () {
     return view('auth.signup');
 });
-
-Route::get('/admin', function () {
+Route::get('do-rac', [TypeTrashController::class, 'do-rac'])->name('do-rac')->middleware(CheckAuthMiddleware::class);
+Route::get('admin', function () {
     return view('admin.dashboad');
 })->middleware(CheckAuthMiddleware::class);
 Route::resource('time_trash', TimeTrashController::class);
@@ -45,3 +45,4 @@ Route::post('signup', [AuthController::class, 'signup'])->name('signup');
 Route::get('signup', [AuthController::class, 'signup']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('addPoint/{trashType}/{unable}', [UsersController::class, 'addPoint'])->name('addPoint');
+Route::get('trashDelete/{id}', [TypeTrashController::class, 'trashDelete'])->name('trashDelete');

@@ -14,6 +14,7 @@ class TrashController extends Controller
     {   
        
         $trashs = Trash::all();
+       
         return view('admin.trash.index', compact('trashs'));
     }
     public function create()
@@ -49,9 +50,7 @@ class TrashController extends Controller
         ]);
 
         $trash->update($data);
-
         Session::flash('success', 'Sửa thùng rác thành công!');
-
         return redirect()->route('trash.index');
     }
 
@@ -64,20 +63,20 @@ class TrashController extends Controller
         return redirect()->route('trash.index');
     }
     public function trashIndex(){
-        if(Auth::user()){
+        
         $id_trash = Auth::user()->id_trash;
         if($id_trash){
-            if(isset($_SESSION['role']) && $_SESSION['role'] == 0){
                 $trash = Trash::find($id_trash);
                 $trasheType = TypeTrash::where('id_trash',$id_trash)->get();
+                foreach ($trasheType as $key => $trash) {
+                    $notification = "";
+                    $notification = $trash->weightabel / $trash->weight * 100;
+                    $trasheType[$key]->notification = $notification;
+                }
                 return view('index',compact('trash','trasheType'));
-            }
-            else{
-                echo "<script>alert('Bạn phải là nhân viên mới được truy cập trang này');</script>";
-                return redirect("user_client");
-            }
-    }}
-    return redirect('/');
+    }
+
+    return view('index');
     }
 
 }

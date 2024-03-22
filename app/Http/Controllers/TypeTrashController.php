@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Pusher\Pusher;
 use App\Models\Trash;
 use App\Models\TypeTrash;
+
 use Illuminate\Http\Request;
+use function Laravel\Prompts\alert;
 
 class TypeTrashController extends Controller
 {
@@ -63,7 +66,18 @@ class TypeTrashController extends Controller
 
         return redirect()->route('type_trash.index');
     }
-
+    public function trashDelete(TypeTrash $typeTrash,$id){
+        $notification = "Đổ rác thành công!";
+        $typeTrash = TypeTrash::find($id);
+        $typeTrash->weightable = 0;
+        $typeTrash->update(['weightable' => $typeTrash->weightable]);
+        $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true,
+        ]);
+        $pusher->trigger('scanner', 'notification', $notification);
+        return redirect()->route('user_client');
+    }
     public function destroy(TypeTrash $typeTrash)
     {
         $typeTrash->delete();
