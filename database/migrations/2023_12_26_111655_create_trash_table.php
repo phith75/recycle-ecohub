@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->string('status')->nullable();
+            $table->string('title')->nullable();
             $table->string('location')->nullable();
             $table->timestamps();
             $table->softDeletes(); // delete

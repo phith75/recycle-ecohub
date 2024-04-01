@@ -76,7 +76,7 @@ class TypeTrashController extends Controller
             'useTLS' => true,
         ]);
         $pusher->trigger('scanner', 'notification', $notification);
-        return redirect()->route('user_client');
+        return redirect()->route('index');
     }
     public function destroy(TypeTrash $typeTrash)
     {

@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
   public function signinPage(Request $request){
-    return view("auth.login");
+    $trashs = Trash::all();
+    return view("auth.login", compact('trashs'));
    
   }
   public function login(Request $request)
@@ -20,13 +21,18 @@ class AuthController extends Controller
     $data = [
       'email' => $request->email,
       'password' => $request->password,
-      
     ];
     
     if (Auth::attempt($data)) {
+      
       $checking_role = User::where('email', $data['email'])->first();
-    $_SESSION['role'] = $checking_role->role;
-    
+      $_SESSION['role'] = $checking_role->role;
+      if($request->location != null){
+        $trash = $request->location;
+        $checking_role->id_trash = $trash;
+    $checking_role->save();
+
+      }
     if($_SESSION['role'] == 1){
       return redirect('user_client');
     }
@@ -39,7 +45,6 @@ class AuthController extends Controller
   public function logout()
   {
     Auth::logout();
-    session_destroy();
     return redirect('/');
   }
 

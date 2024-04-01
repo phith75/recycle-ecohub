@@ -116,6 +116,15 @@
                   </div>
                 </div>
                 <div class="mb-3">
+                  <label for="defaultSelect" class="form-label"> chọn thùng rác (Lưu ý phải chọn đúng thùng rác, nếu chọn sai scan QR sẽ không được)</label>
+                  <select id="defaultSelect" name="location" class="form-select">
+                    <option value="" selected disabled>Chọn thùng rác</option>
+                    @foreach ( $trashs as $trash )
+                    <option value="{{$trash->id}}">{{$trash->name}}</option>
+                    @endforeach
+                  </select>
+              </div>
+                <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit" name="submit">Sign in</button>
                 </div>
               </form>

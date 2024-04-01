@@ -7,7 +7,6 @@ use App\Models\Trash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
 class UsersController extends Controller
 {
     public function index()
@@ -15,6 +14,7 @@ class UsersController extends Controller
         $users = User::join('trash', 'users.id_trash', '=', 'trash.id')
         ->select('users.*', 'trash.name as trash_name')
         ->get();
+        
         return view('admin.users.index', compact('users'));
     }
 

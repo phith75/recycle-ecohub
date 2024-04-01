@@ -2,20 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Trash;
 use Pusher\Pusher;
+use App\Models\Gift;
 use App\Models\User;
+use App\Models\Trash;
 use App\Models\TypeTrash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TrashController;
+use Illuminate\Support\Facades\Session;
+
+
 
 class ScanQRController extends Controller
 {
     public function index()
-    {       
-        
-            return view("user_scaner");
-        
+    {       $trashController = new TrashController();
+            $trashController->trashTaked();
+            $trash = session()->get('trash');
+            $trasheType = session()->get('trasheType');
+            $gifts = Gift::all();
+            $user = Auth::user();
+            
+            return view("user_scaner", compact('trash', 'trasheType', 'gifts', 'user'));
     }
     public function redirectToRoute(Request $request, $id)
 {
@@ -29,7 +38,6 @@ class ScanQRController extends Controller
     // Lấy thông tin người dùng từ ID
     $user = User::find($userId);
     if (!$user) {
-        // Xử lý khi không tìm thấy người dùng
         return redirect('/user_client')->with('error', 'Không tìm thấy người dùng.');
     }
     $userName = $user->name;
@@ -78,8 +86,9 @@ class ScanQRController extends Controller
     ]);
     $pusher->trigger('scanner', 'userData', $dataToSend);
     // Hiển thị thông báo thành công
-    echo "<script>alert('Cộng điểm thành công');</script>";
+    
     // Redirect người dùng sau khi xử lý xong
+    Session::flash('success', 'Your action was successful!');
     return redirect('/user_client');
 }
 

@@ -16,6 +16,7 @@ class Trash extends Model
         'name',
         'location',
         'status',
+        'title',
     ];
 
 }

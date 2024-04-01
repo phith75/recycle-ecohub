@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trash;
 use App\Models\TypeTrash;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -14,7 +15,6 @@ class TrashController extends Controller
     {   
        
         $trashs = Trash::all();
-       
         return view('admin.trash.index', compact('trashs'));
     }
     public function create()
@@ -24,11 +24,13 @@ class TrashController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'location' => 'required',
-          
+            'title' => 'required',
         ]);
+        $data = $validatedData;
+
 
         $trash = Trash::create($data);
 
@@ -38,15 +40,19 @@ class TrashController extends Controller
     }
 
     public function edit(Trash $trash)
-    {
-        return view('admin.trash.edit', compact('trash'));
+    {   
+        $decodedString = base64_decode($trash->location);
+        $latLng = explode(",", $decodedString);
+        $latitude = floatval($latLng[0]);
+        $longitude = floatval($latLng[1]);
+        return view('admin.trash.edit', compact('trash', 'latitude', 'longitude'));
     }
 
     public function update(Request $request, Trash $trash)
     {
         $data = $request->validate([
             'location' => 'required',
-           
+            'title' => 'required',
         ]);
 
         $trash->update($data);
@@ -62,21 +68,29 @@ class TrashController extends Controller
 
         return redirect()->route('trash.index');
     }
-    public function trashIndex(){
-        
+    public function trashTaked(){
+       
         $id_trash = Auth::user()->id_trash;
         if($id_trash){
                 $trash = Trash::find($id_trash);
                 $trasheType = TypeTrash::where('id_trash',$id_trash)->get();
-                foreach ($trasheType as $key => $trash) {
-                    $notification = "";
-                    $notification = $trash->weightabel / $trash->weight * 100;
+                foreach ($trasheType as $key => $trashtype) {
+                    $notification = 0;
+                    $notification = ($trashtype->weightable / $trashtype->weight) * 100;
                     $trasheType[$key]->notification = $notification;
+
                 }
-                return view('index',compact('trash','trasheType'));
+                session()->put('trash', $trash);
+                session()->put('trasheType', $trasheType);
     }
-
-    return view('index');
     }
-
+    public function trashIndex(Request $request, Trash $trash){
+        $this->trashTaked();
+        $trasheType = session()->get('trasheType');
+        $trash = session()->get('trash');
+        return view('index',compact('trash','trasheType'));
+    }
+    public function admin(){
+        return view('admin.dashboad');
+    }
 }

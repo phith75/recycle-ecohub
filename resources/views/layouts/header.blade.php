@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-Yfku/8UX2xSueh6Yk39iRE/iIkcrqACqR6gyYO4FAYqNHjPfaunC6GU+ZyI5j4aAOhqWq6f+SuCcFwtI9mMYmQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicons/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicons/favicon-32x32.png') }}">
@@ -40,11 +41,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap"
         rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFOnpDpgdthxrwVBWTVqQzLJ8o7mhIqMXpS9IKrTdtdI4z9ACoqbQ83SX+a" crossorigin="anonymous"></script>
+        
     <link href="{{ asset('vendors/prism/prism.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/user.css') }}" rel="stylesheet" />
     <style>
+        body {
+    background-image: url('{{ asset("assets/img/bg.jpg") }}');
+    /* Nếu bạn muốn lặp lại hình ảnh */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; /* Đây là điểm quan trọng */
+    /* Hoặc background-repeat: no-repeat; nếu bạn không muốn lặp lại */
+    /* Có thể thêm các thuộc tính khác như background-size, background-position tùy theo nhu cầu */
+}
+
         .text-center-qr {
             margin-top: 2rem;
             display: flex;
@@ -206,8 +221,9 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
+        
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark" data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container"><a class="navbar-brand" href="/"><span class="fas fa-leaf"></span> ECOHUB
+            <div class="container"><a class="navbar-brand" href="/index"><img width="50px" src="{{ asset('assets/img/logo.png') }}" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -217,11 +233,11 @@
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                         <li class="nav-item ms-2"><a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
+                        
                         @if (Auth::check())
-                            <li class="nav-item ms-2 me-2"><a class="nav-link glow-on-hover" aria-current="page"
+                            <li class="nav-item ms-2 "><a class="nav-link glow-on-hover" aria-current="page"
                                     href="#">Chào
                                     <span class="">{{ Auth::user()->name }} !</span></a></li>
-
 
 
                             @if (Auth::user()->role == 0)
@@ -244,37 +260,38 @@
                                         class="dropdown-menu dropdown-menu-warning"
                                         aria-labelledby="dropdownMenuButton2">
                                         @foreach ($trasheType as $trash)
-                                        <?php
-                                        
-                                    
-                                            $class = "text-success"; // Mặc định là text-success
-                                        
+                                            <?php
+                                            $class = 'text-success'; // Mặc định là text-success
+                                            
                                             if ($trash->notification > 70) {
-                                                $class = "text-danger";
+                                                $class = 'text-danger';
                                             } elseif ($trash->notification >= 50) {
-                                                $class = "text-warning";
-                                        }
-                                        ?>
-                                                <a class="dropdown-item" href="{{route('trashDelete', $trash->id)}}">{{ $trash->name }} <span
-                                                        class="{{$class }}">{{ $trash->notification }}%</span></a>
+                                                $class = 'text-warning';
+                                            }
+                                            ?>
+                                            <a class="dropdown-item"
+                                                href="{{ route('trashDelete', $trash->id) }}">{{ $trash->name }}
+                                                <span
+                                                    class="{{ $class }}">{{ $trash->notification }}%</span></a>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @elseif (Auth::user()->role == 1)
-                                <div class="dropdown">
+                            <li class="nav-item ms-2"><a class="nav-link active" aria-current="page" href="#qr-reader">Quét mã</a>
+                            </li>
+                                <div class="dropdown ms-2">
                                     <a style="border-radius: 4px" class="btn btn-warning dropdown-toggle nav-link"
                                         id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false"
                                         type="button">
-                                        <span class="text-success">{{ Auth::user()->point }}</span> coin
+                                        <span class="text-success">{{ $pointAuth = Auth::user()->point }}</span> coin
                                     </a>
                                     <ul style="border-radius: 0px; padding: 10px 0px;"
                                         class="dropdown-menu dropdown-menu-warning"
                                         aria-labelledby="dropdownMenuButton2">
                                         <!-- Nút "Đổi điểm" ẩn -->
                                         <li>
-                                            <a class="dropdown-item" href="#">Đổi điểm</a>
-
+                                            <a class="dropdown-item" href="#gift-content">Đổi quà</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -288,7 +305,7 @@
                             <li class="nav-item ms-2 mt-2 mt-lg-0">
                                 <a style="background: #ffffff; border:none"
                                     class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100"
-                                    aria-current="page" href="/login">Log In</a>
+                                    aria-current="page" href="/sign-in">Log In</a>
                             </li>
                             <li class="nav-item ms-2 mt-2 mt-lg-0">
                                 <a style="background: #65e4a3; border:none"
@@ -301,5 +318,4 @@
                 </div>
             </div>
         </nav>
-        <div class="bg-dark"><img class="img-fluid position-absolute end-0" src="assets/img/hero/hero-bg.png"
-                alt="" />
+        <div class="">

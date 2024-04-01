@@ -126,10 +126,12 @@ return [
     ],
 
     'provider' => [
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class, 
       
     ],
     'aliases' => [
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 ];

@@ -9,27 +9,21 @@ use Illuminate\Support\Facades\Route;
 
 class CheckAuthMiddleware
 {
-    public function handle(Request $request, Closure $next)
-    {
+    public function handle(Request $request, Closure $next,$role)
+    {   
         if (!Auth::check()) {
             return redirect()->to('/');
         }
-        $user = Auth::user();
-        $currentRoute = Route::currentRouteName();
-        if ($user->role == 1 && $currentRoute != 'admin') {
-            if ($currentRoute != 'index') {
-                return $next($request);
-            } else {
-                return redirect()->route('user_client');
-            }
-        } elseif ($user->role == 0) {
-            // Nếu user có role là 0 và đường dẫn không thuộc user_client
-            if ($currentRoute != 'user_client') {
-                return $next($request);
-            } else {
-                // Nếu không, chuyển hướng đến index
-                return redirect()->route('index');
-            }
+        
+        elseif (Auth::user()->role == $role) {
+            abort(401,$role);
+            // Nếu vai trò của người dùng khớp với $role được truyền vào, chuyển hướng hoặc phản hồi tùy ý của bạn.
         }
+        
+        else{
+
+            return $next($request);
+        }
+
     }
 }

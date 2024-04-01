@@ -1,3 +1,5 @@
+</div>
+
 <section class="pt-0">
 
     <div class="container">
@@ -8,6 +10,7 @@
     <!-- end of .container-->
 
 </section>
+</div>
 
 <!-- <section> close ============================-->
 <!-- ============================================-->
@@ -16,6 +19,7 @@
 <!--    JavaScripts-->
 <!-- ===============================================-->
 <!-- ===============================================-->
+
 <script src="{{ asset('vendors/popper/popper.min.js') }}"></script>
 <script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendors/anchorjs/anchor.min.js') }}"></script>
@@ -28,7 +32,7 @@
 <script src="{{ asset('vendors/prism/prism.js') }}"></script>
 <script src="{{ asset('vendors/swiper/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('assets/js/theme.js') }}"></script>
-    
+    </main>
 </body>
 
 </html>
