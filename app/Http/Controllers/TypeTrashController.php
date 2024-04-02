@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Pusher\Pusher;
 use App\Models\Trash;
 use App\Models\TypeTrash;
-
+use App\Models\TypeTrashType;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\alert;
 
@@ -13,9 +13,8 @@ class TypeTrashController extends Controller
 {
     public function index()
     {
-        $typeTrashes = TypeTrash::join('trash', 'type_trash.id_trash', '=', 'trash.id')
-        ->select('type_trash.*', 'trash.name as trash_name')
-        ->get();
+        $typeTrashes = TypeTrash::all();
+        
         return view('admin.type_trash.index', compact('typeTrashes'));
     }
 
@@ -32,7 +31,6 @@ class TypeTrashController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'weight' => 'required|integer',
-            'id_trash' => 'required|integer',
             'weightable' => '',
         ]);
         $typeTrash = new TypeTrash();
@@ -68,7 +66,7 @@ class TypeTrashController extends Controller
     }
     public function trashDelete(TypeTrash $typeTrash,$id){
         $notification = "Đổ rác thành công!";
-        $typeTrash = TypeTrash::find($id);
+        $typeTrash = TypeTrashType::find($id);
         $typeTrash->weightable = 0;
         $typeTrash->update(['weightable' => $typeTrash->weightable]);
         $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [

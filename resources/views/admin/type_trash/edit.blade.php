@@ -25,14 +25,7 @@
                                 <label class="form-label" for="basic-default-company">Cân nặng</label>
                                 <input type="text" class="form-control" name="weight" id="basic-default-company" value="{{ $typeTrash->weight }}" placeholder="Vị trí" />
                             </div>
-                            <div class="mb-3">
-                                <label for="defaultSelect" class="form-label">Thùng rác</label>
-                                    <select id="defaultSelect" name="id_trash" class="form-select">
-                                        @foreach ( $trashs as $trash )
-                                        <option value="{{$trash->id}}">{{$trash->name}}</option>
-                                        @endforeach
-                                      </select>
-                                  </div>
+                            
                             <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                         </form>
                     </div>

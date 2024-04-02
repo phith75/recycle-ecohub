@@ -17,6 +17,7 @@
                 <label class="form-label" for="basic-default-fullname">Name</label>
                 <input type="text" class="form-control" name="name" id="basic-default-fullname" placeholder="Trashhh" />
               </div>
+              
               <div class="mb-3">
                 <label class="form-label" for="basic-default-title">Chi tiết địa chỉ</label>
                 <input type="text" class="form-control" name="title" id="basic-default-title" placeholder="Title for location" />
@@ -26,6 +27,17 @@
                 <div id="location-map" style="height: 300px;"></div>
                 <input type="hidden" name="location" id="location" value="">
               </div>
+
+              <div class="mb-3">
+                <label class="form-label">Loại rác</label><br>
+                @foreach($typeTrashes as $typeTrash)
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="type_trashes[]" value="{{ $typeTrash->id }}" id="typeTrash{{ $typeTrash->id }}">
+                    <label class="form-check-label" for="typeTrash{{ $typeTrash->id }}">{{ $typeTrash->name }}</label>
+                  </div>
+                @endforeach
+              </div>
+
               <button type="submit" class="btn btn-success">Add</button>
             </form>
           </div>
@@ -54,4 +66,4 @@
       document.getElementById('location').value = btoa(`${e.latlng.lat},${e.latlng.lng}`);
     });
   </script>
-  @endsection
+@endsection

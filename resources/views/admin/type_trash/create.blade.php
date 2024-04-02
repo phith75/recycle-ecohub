@@ -30,14 +30,6 @@
                                 <input type="number" class="form-control" name="weight" id="basic-default-company"
                                     placeholder="100"  aria-describedby="basic-addon13" />
                             </div>
-                          <div class="mb-3">
-                        <label for="defaultSelect" class="form-label">Thùng rác</label>
-                            <select id="defaultSelect" name="id_trash" class="form-select">
-                                @foreach ( $trashs as $trash )
-                                <option value="{{$trash->id}}">{{$trash->name}}</option>
-                                @endforeach
-                              </select>
-                          </div>
                             <button type="submit" class="btn btn-success">Add</button>
                         </form>
                     </div>

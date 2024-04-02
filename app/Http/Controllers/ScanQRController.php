@@ -10,6 +10,7 @@ use App\Models\TypeTrash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TrashController;
+use App\Models\TypeTrashType;
 use Illuminate\Support\Facades\Session;
 
 
@@ -61,8 +62,7 @@ class ScanQRController extends Controller
 
     // Cập nhật dữ liệu vào cơ sở dữ liệu
     // Đây là một ví dụ cập nhật với Eloquent, bạn cần điều chỉnh phù hợp với cấu trúc cơ sở dữ liệu của bạn
-    $trashType = TypeTrash::find($trashType);
-
+    $trashType = TypeTrashType::where('type_trash_id', $trashType)->where('trash_id', $user->id_trash)->first();
     if ($trashType) {
 
         $trashType->weightable += $weight;

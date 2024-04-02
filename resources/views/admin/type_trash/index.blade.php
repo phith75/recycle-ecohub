@@ -15,7 +15,6 @@
             <th>Name</th>
             <th>Cân nặng</th>
             <th>Cân nặng khả dụng</th>
-            <th>Thùng rác</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -30,9 +29,6 @@
             <td>  
               {{ $trash->weightable }} kg
             </td>
-              <td>  
-                {{ $trash->trash_name }} 
-              </td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

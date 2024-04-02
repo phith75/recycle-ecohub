@@ -9,7 +9,6 @@ class MapController extends Controller
 {
     public function index(){
         $trashs = Trash::all();
-    
         foreach ($trashs as $trashIndex) {
             // Check for null values
             if ($trashIndex->location === null) {

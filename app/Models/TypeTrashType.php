@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class TypeTrash extends Model
+
+class TypeTrashType extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'type_trash';
+
+    protected $table = 'trash_type_trash';
 
     protected $fillable = [
-        'id',
-        'name',
-        'weight',
+        'trash_id',
+        'type_trash_id',
         'weightable',
     ];
 }

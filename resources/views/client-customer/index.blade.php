@@ -65,7 +65,6 @@
             /* Hoặc background-repeat: no-repeat; nếu bạn không muốn lặp lại */
             /* Có thể thêm các thuộc tính khác như background-size, background-position tùy theo nhu cầu */
         }
-
         .text-center-qr {
             margin-top: 2rem;
             display: flex;
@@ -240,6 +239,8 @@
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                         <li class="nav-item ms-2"><a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
+                        <li class="nav-item ms-2"><a class="nav-link active" aria-current="page" href="#about-us">Về chúng tôi</a>
+                        </li>
                         <li class="nav-item ms-2 mt-2 mt-lg-0">
                             <a style="background: #ffffff; border:none"
                                 class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page"
@@ -255,7 +256,7 @@
             </div>
         </nav>
         <section class="py-5 container text-center items-center mt-5 ">
-            <h1 class="text-center text-white">Số lượng thùng rác của chúng tôi</h1>
+            <h1 class="text-center text-white">Số lượng thùng rác đang thí điểm tại<br> <span class="text-primary">Hà Nội</span> của chúng tôi: <span class="text-success">{{count($trashs)}} </span></h1>
         <div class="flex items-center mt-5">
             <div class="container py-5" id="map" style=" height: 500px !important"></div>
 
@@ -263,7 +264,7 @@
     </section>
     <section>
 
-        <div class="container">
+        <div class="container" id="about-us">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-center text-lg-start"><img class="img-fluid" src="assets/img/offer/1.png"
                         alt="" /></div>
@@ -402,7 +403,7 @@
         <!-- end of .container-->
 
     </section>
-        <section class="pt-0">
+        <section class="pt-5">
 
             <div class="container">
                 <div class="m-auto text-center">

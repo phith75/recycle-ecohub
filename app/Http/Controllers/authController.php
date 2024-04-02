@@ -31,7 +31,6 @@ class AuthController extends Controller
         $trash = $request->location;
         $checking_role->id_trash = $trash;
     $checking_role->save();
-
       }
     if($_SESSION['role'] == 1){
       return redirect('user_client');
@@ -39,7 +38,7 @@ class AuthController extends Controller
       return redirect('index');
     } else {
       session()->flash('error', 'Sai tài khoản hoặc mật khẩu!');
-      return redirect('/');
+      return redirect('/sign-in');
     }
   }
   public function logout()
